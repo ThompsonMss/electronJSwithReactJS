@@ -7,9 +7,19 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools: isDev ? true : false
     }
   })
+
+  /* ENVIROMENT OF PRODUCTION, BLOCKING DEVELOPMENT TOOLS */
+  /**
+   * @author ThompsonM
+   */
+  
+  if(!isDev){
+      win.webContents.on("devtools-opened", () => { win.webContents.closeDevTools(); });
+  }
 
   win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, "../build/index.html")}`)
 }

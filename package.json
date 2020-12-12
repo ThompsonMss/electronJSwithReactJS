@@ -2,6 +2,11 @@
   "name": "projelectron",
   "version": "0.1.0",
   "main": "public/electron.js",
+  "description": "Program developed for desktop using reactjs and electron",
+  "build": {
+    "appId": "react.electron"
+  },
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -18,8 +23,8 @@
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
-    "electron-build": "electron-build",
-    "build": "npm run react-build && npm run electron-build",
+    "electron-builder": "electron-builder",
+    "build": "npm run react-build && npm run electron-builder",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
