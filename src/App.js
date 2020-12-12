@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   margin: 10,
   table: {
-    minWidth: 700,
+    minWidth: 300,
   },
 }));
 
@@ -175,43 +175,36 @@ function App() {
           </Button>
         </div>
 
-        <div
+        <TableContainer
           style={{
-            width: "98.5%",
-            height: "100%",
-            paddingLeft: "10px",
-            paddingRight: "10px",
+            marginTop: "40px",
+            width: "98%",
+            marginLeft: '10px'
           }}
+          component={Paper}
+          className="scrollbarHide"
         >
-          <TableContainer
-            style={{
-              marginTop: "40px",
-            }}
-            component={Paper}
-            className="scrollbarHide"
-          >
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Condomínio</StyledTableCell>
-                  <StyledTableCell align="center">Apartamento</StyledTableCell>
-                  <StyledTableCell align="right">Morador</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      Condomínio Dedicado
-                    </StyledTableCell>
-                    <StyledTableCell align="center">102A</StyledTableCell>
-                    <StyledTableCell align="right">Thompson M</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+          <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Condomínio</StyledTableCell>
+                <StyledTableCell align="center">Apartamento</StyledTableCell>
+                <StyledTableCell align="right">Morador</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <StyledTableRow key={row.name}>
+                  <StyledTableCell component="th" scope="row">
+                    Condomínio Dedicado
+                  </StyledTableCell>
+                  <StyledTableCell align="center">102A</StyledTableCell>
+                  <StyledTableCell align="right">Thompson M</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </WrapperRight>
     </Container>
   );
