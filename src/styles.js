@@ -9,32 +9,36 @@ export const Container = styled.div`
   background-color: #eee;
 `;
 
-export const WrapperLeft = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex: 1;
-  width: 100%;
-  height: 100%;
-  border-right: 1px solid #999;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
 `;
 
-export const WrapperRight = styled.div`
-  display: flex;
-  flex: 1;
+export const WrapperLeft = styled(Wrapper)`
+  border-right: 1px solid #000;
+  height: 100%;
+  background: #ff6800;
 `;
+
+export const WrapperRight = styled(Wrapper)``;
 
 export const Title = styled.div`
   display: flex;
   width: 100%;
   padding-bottom: 0px;
-  margin: 10px;
+  margin-bottom: 10px;
   height: 50px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  border-bottom: .5px solid #2e2e2e;
+  border-bottom: ${(props) => `0.5px solid ${props.color}`};
 
   span {
     font-size: 24px;
-    color: #2e2e2e;
+    color: ${(props) => props.color};
   }
 `;

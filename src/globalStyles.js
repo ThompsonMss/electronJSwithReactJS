@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
         height: 100%;
-        /* overflow: hidden; */
+        overflow: hidden;
         font-family: Arial, Helvetica, sans-serif;
         font-smoothing: antialiased;
     }
@@ -20,10 +20,10 @@ const GlobalStyles = createGlobalStyle`
         user-select: none;
         cursor: ew-resize;
         position: absolute;
-        background-color: #999;
+        background-color: #000;
         font-size: 24px;
         border-radius: 4px;
-        border: 1px solid #666;
+        border: 1px solid #000;
         &::before {
             width: 1px;
             height: 32px;
@@ -33,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     .react-resizable-handle-e {
-        right: -5px;
+        right: -4px;
         padding-right: 5px;
         top: 50%;
         transform: translateY(-50%);
