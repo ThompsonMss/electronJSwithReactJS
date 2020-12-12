@@ -22,6 +22,7 @@ export const WrapperLeft = styled(Wrapper)`
   border-right: 1px solid #000;
   height: 100%;
   background: #ff6800;
+  overflow: scroll;
 `;
 
 export const WrapperRight = styled(Wrapper)``;
@@ -41,4 +42,20 @@ export const Title = styled.div`
     font-size: 24px;
     color: ${(props) => props.color};
   }
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const TitleList = styled.span`
+  color: #fff;
+`;
+
+export const DescList = styled.span`
+  color: #fff;
 `;

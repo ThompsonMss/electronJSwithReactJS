@@ -1,8 +1,16 @@
-import { Container, WrapperLeft, WrapperRight, Title } from "./styles";
+import {
+  Container,
+  WrapperLeft,
+  WrapperRight,
+  Title,
+  Row,
+  TitleList,
+  DescList,
+} from "./styles";
 import { ResizableBox } from "react-resizable";
 
 /* MATERIAL UI */
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,19 +19,38 @@ import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
 import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
-  input: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
+  margin: 10,
+}));
+
+const CssTextField = withStyles({
+  root: {
+    width: "100%",
+    margin: "10px",
+    "& label.Mui-focused": {
+      color: "#FF6800",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#FF6800",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "red",
+      },
+      "&:hover fieldset": {
+        borderColor: "yellow",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#FF6800",
+      },
     },
   },
-}));
+})(TextField);
 
 function App() {
   const classes = useStyles();
@@ -43,43 +70,54 @@ function App() {
             <span>Logs</span>
           </Title>
           <List className={classes.root}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <ImageIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <WorkIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Work" secondary="Jan 7, 2014" />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <BeachAccessIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Vacation" secondary="July 20, 2014" />
-            </ListItem>
+            {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => (
+              <ListItem style={{ marginBottom: "10px", background: "#ff8c3f" }}>
+                <ListItemAvatar>
+                  <Avatar>
+                    <BeachAccessIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={<TitleList>Anderson</TitleList>}
+                  secondary={<DescList>Entrada Principal</DescList>}
+                />
+              </ListItem>
+            ))}
           </List>
         </WrapperLeft>
       </ResizableBox>
 
       <WrapperRight>
-        <Title color="#000">
-          <span>BD</span>
+        <Title color="#888">
+          <span>Query in the database</span>
         </Title>
-        <form className={classes.input} noValidate autoComplete="off">
-          <TextField id="standard-basic" label="Standard" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        </form>
+        <Row>
+          <CssTextField className={classes.margin} label="Host:" id="host" />
+          <CssTextField
+            className={classes.margin}
+            label="Database:"
+            id="database"
+          />
+          <CssTextField className={classes.margin} label="User:" id="user" />
+        </Row>
+
+        <Row>
+          <CssTextField
+            className={classes.margin}
+            label="Password:"
+            id="password"
+          />
+          <CssTextField
+            className={classes.margin}
+            label="ID Condomínio:"
+            id="condominio"
+          />
+          <CssTextField
+            className={classes.margin}
+            label="ID Apartamento:"
+            id="apartamento"
+          />
+        </Row>
       </WrapperRight>
     </Container>
   );
