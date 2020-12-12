@@ -12,11 +12,14 @@ function createWindow () {
     }
   })
 
+  /* MAXIMIZE BROWSERWINDOW */
+  win.maximize();
+
   /* ENVIROMENT OF PRODUCTION, BLOCKING DEVELOPMENT TOOLS */
   /**
    * @author ThompsonM
    */
-  
+
   if(!isDev){
       win.webContents.on("devtools-opened", () => { win.webContents.closeDevTools(); });
   }
