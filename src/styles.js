@@ -21,3 +21,20 @@ export const WrapperRight = styled.div`
   display: flex;
   flex: 1;
 `;
+
+export const Title = styled.div`
+  display: flex;
+  width: 100%;
+  padding-bottom: 0px;
+  margin: 10px;
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: .5px solid #2e2e2e;
+
+  span {
+    font-size: 24px;
+    color: #2e2e2e;
+  }
+`;

@@ -1,4 +1,4 @@
-import { Container, WrapperLeft, WrapperRight } from "./styles";
+import { Container, WrapperLeft, WrapperRight, Title } from "./styles";
 import { ResizableBox } from "react-resizable";
 
 function App() {
@@ -12,10 +12,18 @@ function App() {
         resizeHandles={["e"]}
         axis="x"
       >
-        <WrapperLeft></WrapperLeft>
+        <WrapperLeft>
+          <Title>
+            <span>Logs</span>
+          </Title>
+        </WrapperLeft>
       </ResizableBox>
 
-      <WrapperRight></WrapperRight>
+      <WrapperRight>
+        <Title>
+          <span>BD</span>
+        </Title>
+      </WrapperRight>
     </Container>
   );
 }
