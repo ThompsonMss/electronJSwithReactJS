@@ -16,17 +16,44 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
-import WorkIcon from "@material-ui/icons/Work";
 import BeachAccessIcon from "@material-ui/icons/BeachAccess";
 import TextField from "@material-ui/core/TextField";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
   margin: 10,
+  table: {
+    minWidth: 700,
+  },
 }));
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: "#FF6800",
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
 const CssTextField = withStyles({
   root: {
@@ -52,6 +79,23 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+];
+
 function App() {
   const classes = useStyles();
 
@@ -73,7 +117,7 @@ function App() {
             {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => (
               <ListItem style={{ marginBottom: "10px", background: "#ff8c3f" }}>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar style={{ background: "rgba(0,0,0,.1)" }}>
                     <BeachAccessIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -118,6 +162,56 @@ function App() {
             id="apartamento"
           />
         </Row>
+
+        <div
+          style={{
+            marginLeft: "10px",
+            marginTop: "10px",
+            marginBottom: "-20px",
+          }}
+        >
+          <Button variant="contained" color="primary">
+            Enviar
+          </Button>
+        </div>
+
+        <div
+          style={{
+            width: "98.5%",
+            height: "100%",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+          }}
+        >
+          <TableContainer
+            style={{
+              marginTop: "40px",
+            }}
+            component={Paper}
+            className="scrollbarHide"
+          >
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Condomínio</StyledTableCell>
+                  <StyledTableCell align="center">Apartamento</StyledTableCell>
+                  <StyledTableCell align="right">Morador</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      Condomínio Dedicado
+                    </StyledTableCell>
+                    <StyledTableCell align="center">102A</StyledTableCell>
+                    <StyledTableCell align="right">Thompson M</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </WrapperRight>
     </Container>
   );
