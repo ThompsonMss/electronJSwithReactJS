@@ -98,6 +98,8 @@ function App() {
   const [cond, setCond] = useState("");
 
   const [data, setData] = useState([]);
+  const [dataLogs, setDataLogs] = useState([]);
+  const [listenLog, setListenLog] = useState(null);
 
   useEffect(() => {
     ipcRenderer.on("endQuery", (event, message) => {
@@ -109,7 +111,34 @@ function App() {
       alert("Não foi possível realizar consulta.");
       setLoading(false);
     });
+
+    ipcRenderer.on("errorSocket", (event, message) => {
+      alert("Não foi possível se conectar no servidor de socket.");
+    });
+
+    ipcRenderer.on("closeSocket", (event, message) => {
+      alert("Servidor de socket encerrado.");
+    });
+
+    ipcRenderer.on("messageSocket", (event, message) => {
+      setListenLog(message);
+      console.log("Mensagem: ", message);
+    });
   }, []);
+
+  useEffect(() => {
+    if (listenLog != null) {
+      const aux = dataLogs;
+      if (aux.length >= 20) {
+        aux.splice(aux.length - 1, 1);
+        aux.unshift(listenLog);
+      } else {
+        aux.unshift(listenLog);
+      }
+
+      setDataLogs(aux);
+    }
+  }, [listenLog]);
 
   function execQuery() {
     if (!apt) {
@@ -176,7 +205,7 @@ function App() {
             <span>Logs</span>
           </Title>
           <List className={classes.root}>
-            {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((item, index) => (
+            {dataLogs.map((item, index) => (
               <ListItem
                 key={index}
                 style={{ marginBottom: "10px", background: "#ff8c3f" }}
@@ -191,7 +220,9 @@ function App() {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={<TitleList>{item?.no ? item?.no : "Opa!"}</TitleList>}
+                  primary={
+                    <TitleList>{item?.no ? item?.no : "Opa!"}</TitleList>
+                  }
                   secondary={
                     <DescList>
                       {item?.desc ? item?.desc : "Recebi um socket diferente"}
