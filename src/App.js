@@ -104,10 +104,10 @@ function App() {
 
   const [loading, setLoading] = useState(false);
 
-  const [host, setHost] = useState("");
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
-  const [database, setDatabase] = useState("");
+  const [host, setHost] = useState("localhost");
+  const [user, setUser] = useState("postgres");
+  const [pass, setPass] = useState("admin");
+  const [database, setDatabase] = useState("acessodedicado");
   const [apt, setApt] = useState("");
   const [cond, setCond] = useState("");
 
@@ -126,6 +126,36 @@ function App() {
   }, []);
 
   function execQuery() {
+    if (!apt) {
+      alert("Preencha um ID APT");
+      return;
+    }
+
+    if (!cond) {
+      alert("Preencha um ID COND");
+      return;
+    }
+
+    if (!host) {
+      alert("Preencha um HOST");
+      return;
+    }
+
+    if (!user) {
+      alert("Preencha um USER");
+      return;
+    }
+
+    if (!pass) {
+      alert("Preencha um PASSWORD");
+      return;
+    }
+
+    if (!database) {
+      alert("Preencha um DATABASE");
+      return;
+    }
+
     try {
       setLoading(true);
 

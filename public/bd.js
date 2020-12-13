@@ -1,4 +1,5 @@
 const { Client } = require("pg");
+const { Notification } = require("electron");
 
 function BD(
   user = "",
@@ -24,6 +25,13 @@ function BD(
     if (err) {
       callBackError();
     } else {
+      const notification = {
+        title: "Consulta finalizada.",
+        body: "Electron é foda demais pô!",
+      };
+
+      new Notification(notification).show();
+
       callbackSuccess(res.rows);
     }
 
