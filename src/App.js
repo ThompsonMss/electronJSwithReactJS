@@ -28,6 +28,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
+import DriveEtaIcon from "@material-ui/icons/DriveEta";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+
 const { ipcRenderer } = window.require("electron");
 
 const useStyles = makeStyles((theme) => ({
@@ -81,23 +84,6 @@ const CssTextField = withStyles({
     },
   },
 })(TextField);
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 function App() {
   const classes = useStyles();
@@ -190,16 +176,27 @@ function App() {
             <span>Logs</span>
           </Title>
           <List className={classes.root}>
-            {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => (
-              <ListItem style={{ marginBottom: "10px", background: "#ff8c3f" }}>
+            {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((item, index) => (
+              <ListItem
+                key={index}
+                style={{ marginBottom: "10px", background: "#ff8c3f" }}
+              >
                 <ListItemAvatar>
                   <Avatar style={{ background: "rgba(0,0,0,.1)" }}>
-                    <BeachAccessIcon />
+                    {item?.tipo == "car" ? (
+                      <DriveEtaIcon />
+                    ) : (
+                      <EmojiPeopleIcon />
+                    )}
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={<TitleList>Anderson</TitleList>}
-                  secondary={<DescList>Entrada Principal</DescList>}
+                  primary={<TitleList>{item?.no ? item?.no : "Opa!"}</TitleList>}
+                  secondary={
+                    <DescList>
+                      {item?.desc ? item?.desc : "Recebi um socket diferente"}
+                    </DescList>
+                  }
                 />
               </ListItem>
             ))}
