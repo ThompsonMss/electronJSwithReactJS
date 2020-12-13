@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   WrapperLeft,
@@ -102,15 +102,48 @@ const rows = [
 function App() {
   const classes = useStyles();
 
+  const [loading, setLoading] = useState(false);
+
+  const [host, setHost] = useState("");
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [database, setDatabase] = useState("");
+  const [apt, setApt] = useState("");
+  const [cond, setCond] = useState("");
+
+  const [data, setData] = useState([]);
+
   useEffect(() => {
-    ipcRenderer.on("ping", (event, message) => {
-      console.log(message);
+    ipcRenderer.on("endQuery", (event, message) => {
+      setData(message);
+      setLoading(false);
     });
 
-    ipcRenderer.on("teste1", (event, message) => {
-      console.log(message);
+    ipcRenderer.on("errorQuery", (event, message) => {
+      alert("Não foi possível realizar consulta.");
+      setLoading(false);
     });
   }, []);
+
+  function execQuery() {
+    try {
+      setLoading(true);
+
+      const params = {
+        host: host,
+        user: user,
+        password: pass,
+        database: database,
+        id_apt: apt,
+        id_cond: cond,
+      };
+
+      ipcRenderer.send("execQuery", params);
+    } catch (e) {
+      alert("Erro ao se conectar com banco de dados.");
+      setLoading(false);
+    }
+  }
 
   return (
     <Container>
@@ -149,13 +182,27 @@ function App() {
           <span>Query in the database</span>
         </Title>
         <Row>
-          <CssTextField className={classes.margin} label="Host:" id="host" />
+          <CssTextField
+            className={classes.margin}
+            label="Host:"
+            id="host"
+            value={host}
+            onChange={(e) => setHost(e.target.value)}
+          />
           <CssTextField
             className={classes.margin}
             label="Database:"
             id="database"
+            value={database}
+            onChange={(e) => setDatabase(e.target.value)}
           />
-          <CssTextField className={classes.margin} label="User:" id="user" />
+          <CssTextField
+            className={classes.margin}
+            label="User:"
+            id="user"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+          />
         </Row>
 
         <Row>
@@ -163,16 +210,24 @@ function App() {
             className={classes.margin}
             label="Password:"
             id="password"
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
           />
           <CssTextField
             className={classes.margin}
             label="ID Cond:"
             id="condominio"
+            type="number"
+            value={cond}
+            onChange={(e) => setCond(e.target.value)}
           />
           <CssTextField
             className={classes.margin}
             label="ID Apt:"
             id="apartamento"
+            type="number"
+            value={apt}
+            onChange={(e) => setApt(e.target.value)}
           />
         </Row>
 
@@ -183,19 +238,8 @@ function App() {
             marginBottom: "-20px",
           }}
         >
-          <Button
-            onClick={() => {
-              console.log("Estamos aqui");
-              try {
-                ipcRenderer.send("teste", "reoi");
-              } catch (e) {
-                console.log("Deu erro");
-              }
-            }}
-            variant="contained"
-            color="primary"
-          >
-            Enviar
+          <Button onClick={execQuery} variant="contained" color="primary">
+            {loading ? "Consultado..." : "Consultar"}
           </Button>
         </div>
 
@@ -217,13 +261,15 @@ function App() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.name}>
+              {data.map((row, index) => (
+                <StyledTableRow key={index + ""}>
                   <StyledTableCell component="th" scope="row">
-                    Condomínio Dedicado
+                    {row.no_cond}
                   </StyledTableCell>
-                  <StyledTableCell align="center">102A</StyledTableCell>
-                  <StyledTableCell align="right">Thompson M</StyledTableCell>
+                  <StyledTableCell align="center">{row.no_apt}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.no_morador}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
