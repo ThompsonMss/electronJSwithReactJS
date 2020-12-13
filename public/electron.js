@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -16,7 +16,9 @@ function createWindow() {
   win.maximize();
 
   /* REMOVE SUBMENU */
-  win.removeMenu();
+  if (!isDev) {
+    win.removeMenu();
+  }
 
   /* ENVIROMENT OF PRODUCTION, BLOCKING DEVELOPMENT TOOLS */
   /**
@@ -34,6 +36,15 @@ function createWindow() {
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
+
+  win.webContents.on("did-finish-load", () =>
+    win.webContents.send("ping", "🤘")
+  );
+
+  ipcMain.on("teste", () => {
+    console.log("Caracas");
+    win.webContents.send("teste1", "Fala rapaziada2");
+  });
 }
 
 app.whenReady().then(createWindow);

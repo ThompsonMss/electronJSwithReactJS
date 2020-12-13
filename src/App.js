@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Container,
   WrapperLeft,
@@ -26,6 +27,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+
+const { ipcRenderer } = window.require("electron");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +102,16 @@ const rows = [
 function App() {
   const classes = useStyles();
 
+  useEffect(() => {
+    ipcRenderer.on("ping", (event, message) => {
+      console.log(message);
+    });
+
+    ipcRenderer.on("teste1", (event, message) => {
+      console.log(message);
+    });
+  }, []);
+
   return (
     <Container>
       <ResizableBox
@@ -153,12 +166,12 @@ function App() {
           />
           <CssTextField
             className={classes.margin}
-            label="ID Condomínio:"
+            label="ID Cond:"
             id="condominio"
           />
           <CssTextField
             className={classes.margin}
-            label="ID Apartamento:"
+            label="ID Apt:"
             id="apartamento"
           />
         </Row>
@@ -170,7 +183,18 @@ function App() {
             marginBottom: "-20px",
           }}
         >
-          <Button variant="contained" color="primary">
+          <Button
+            onClick={() => {
+              console.log("Estamos aqui");
+              try {
+                ipcRenderer.send("teste", "reoi");
+              } catch (e) {
+                console.log("Deu erro");
+              }
+            }}
+            variant="contained"
+            color="primary"
+          >
             Enviar
           </Button>
         </div>
@@ -179,7 +203,7 @@ function App() {
           style={{
             marginTop: "40px",
             width: "98%",
-            marginLeft: '10px'
+            marginLeft: "10px",
           }}
           component={Paper}
           className="scrollbarHide"
