@@ -61,7 +61,7 @@ function createWindow() {
 
   execSocket(win.webContents);
 
-  ipcMain("newConnection", (event, arg) => {
+  ipcMain.on("newConnection", (event, arg) => {
     execSocket(win.webContents);
   });
 }
