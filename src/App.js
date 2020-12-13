@@ -89,6 +89,10 @@ function App() {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
+  const [disableButtonSocket, setDisableButtonSocket] = useState(true);
+  const [disableButtonMessageSocket, setDisableButtonMessageSocket] = useState(
+    true
+  );
 
   const [host, setHost] = useState("localhost");
   const [user, setUser] = useState("postgres");
@@ -114,15 +118,20 @@ function App() {
 
     ipcRenderer.on("errorSocket", (event, message) => {
       alert("Não foi possível se conectar no servidor de socket.");
+      setDisableButtonSocket(false);
+      setDisableButtonMessageSocket(true);
     });
 
     ipcRenderer.on("closeSocket", (event, message) => {
       alert("Servidor de socket encerrado.");
+      setDisableButtonSocket(false);
+      setDisableButtonMessageSocket(true);
     });
 
     ipcRenderer.on("messageSocket", (event, message) => {
+      setDisableButtonSocket(true);
+      setDisableButtonMessageSocket(false);
       setListenLog(message);
-      console.log("Mensagem: ", message);
     });
   }, []);
 
@@ -201,9 +210,45 @@ function App() {
         axis="x"
       >
         <WrapperLeft>
-          <Title color="#FFF">
+          <Title
+            style={{ marginTop: "12px", paddingBottom: "10px" }}
+            color="#FFF"
+          >
             <span>Logs</span>
           </Title>
+
+          <Row style={{ marginBottom: "10px", marginTop: "10px" }}>
+            <Button
+              onClick={() => {
+                const id = Math.floor(Math.random() * 999999);
+                alert(`Mensagem enviada: ${id}`);
+                ipcRenderer.send("ping", `Mensagem: ${id}`);
+              }}
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "10px" }}
+              disabled={disableButtonMessageSocket}
+            >
+              Enviar Ping
+            </Button>
+
+            <Button
+              onClick={() => {
+                ipcRenderer.send("newConnection", true);
+              }}
+              variant="contained"
+              style={{
+                backgroundColor: disableButtonSocket
+                  ? "rgba(0,0,0,0.6)"
+                  : "#000",
+                color: "#FFF",
+              }}
+              disabled={disableButtonSocket}
+            >
+              Nova Conexão
+            </Button>
+          </Row>
+
           <List className={classes.root}>
             {dataLogs.map((item, index) => (
               <ListItem

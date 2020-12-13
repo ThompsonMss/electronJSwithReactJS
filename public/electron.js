@@ -60,6 +60,10 @@ function createWindow() {
   });
 
   execSocket(win.webContents);
+
+  ipcMain("newConnection", (event, arg) => {
+    execSocket(win.webContents);
+  });
 }
 
 app.whenReady().then(createWindow);
@@ -88,14 +92,9 @@ function execSocket(emitter) {
   client.onopen = function () {
     console.log("WebSocket Client Connected");
 
-    function sendNumber() {
-      if (client.readyState === client.OPEN) {
-        var number = Math.round(Math.random() * 0xffffff);
-        client.send(number.toString());
-        setTimeout(sendNumber, 1000);
-      }
-    }
-    // sendNumber();
+    ipcMain.on("ping", (event, arg) => {
+      client.send(arg + "");
+    });
   };
 
   client.onclose = function () {
@@ -106,7 +105,6 @@ function execSocket(emitter) {
   client.onmessage = function (e) {
     if (typeof e.data === "string") {
       emitter.send("messageSocket", JSON.parse(e.data));
-      console.log("Received: ", JSON.parse(e.data));
     }
   };
 }
